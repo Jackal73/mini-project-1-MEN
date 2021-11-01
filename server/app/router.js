@@ -14,7 +14,7 @@ router.get("/", (_, res) => {
 // localhost:3000/api/sample_airbnb
 router.get("/sample_airbnb", async (_, res) => {
   // Get all of the sample_airbnb
-  const sampleAirbnb = await collection.find().toArray();
+  const sampleAirbnb = await collection.find().limit(2).toArray();
   res.json(sampleAirbnb);
 });
 
