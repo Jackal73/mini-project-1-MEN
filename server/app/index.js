@@ -9,7 +9,7 @@ app.get("/", (_, res) => {
   res.send("Hello World");
 });
 
-// TODO: Use json middleware (if needed)
+app.use(express.json());
 
 app.use("/api", router);
 
