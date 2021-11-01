@@ -18,4 +18,11 @@ router.get("/sample_airbnb", async (_, res) => {
   res.json(sampleAirbnb);
 });
 
+// localhost:3000/api/sample_airbnb/current listings
+
+// localhost:3000/api/sample_airbnb/:id
+router.get("/sample_airbnb/:id", async (req, res) => {
+  const airbnbListing = await collection.findOne({ _id: req.body.id });
+  res.json(airbnbListing);
+});
 export default router;
