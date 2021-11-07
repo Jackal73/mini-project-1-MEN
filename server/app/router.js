@@ -33,4 +33,13 @@ router.put("/listings/:id", async (req, res) => {
   res.json(updateList);
 });
 
+// Add a new listing
+router.post("/listings", async (req, res) => {
+  const addListing = await collection.insertOne(req.body);
+  res.json(addListing);
+  console.log(
+    `New listing created with the following id: ${addListing.insertedId}`
+  );
+});
+
 export default router;
