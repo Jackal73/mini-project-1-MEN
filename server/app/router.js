@@ -66,4 +66,13 @@ router.put("/reviews/:id", async (req, res) => {
   res.json(updateReview);
 });
 
+// Add review to listing
+router.post("/reviews/:id", async (req, res) => {
+  const addReview = await collection.updateOne(
+    { _id: req.body.id },
+    { $push: { reviews: req.body.payload } }
+  );
+  res.json(addReview);
+});
+
 export default router;
