@@ -13,9 +13,15 @@ router.get("/", (_, res) => {
 
 // Get current listings
 router.get("/current-listings", async (_, res) => {
-  // Get all of the sample_airbnb
+  // Get all of the sample_airbnb listings
   const currentList = await collection.find({}).limit(5).toArray();
   res.json(currentList);
+});
+
+// Get listing by id
+router.get("/:id", async (req, res) => {
+  const listingById = await collection.findOne({ _id: req.body.id });
+  res.json(listingById);
 });
 
 export default router;
