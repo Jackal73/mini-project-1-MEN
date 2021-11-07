@@ -30,6 +30,7 @@ router.get("/:id", async (req, res) => {
 router.put("/listings/:id", async (req, res) => {
   const updateList = await collection.updateOne(
     { _id: req.body.id },
+    // $set - 'update changes' to a listing (using payload/new info) by id
     { $set: req.body.payload }
   );
   res.json(updateList);
@@ -47,8 +48,8 @@ router.post("/listings", async (req, res) => {
 // Delete a single listing
 router.delete("/listings/:id", async (req, res) => {
   const delList = await collection.deleteOne({ _id: req.body.id });
-  // console.log(`Listing id: ${delList.deletedId} was deleted`);
   res.json(delList);
+  // console.log(`Listing id: ${delList.deletedId} was deleted`);
 });
 
 // Get single listing reviews
@@ -61,6 +62,7 @@ router.get("/reviews/:id", async (req, res) => {
 router.put("/reviews/:id", async (req, res) => {
   const updateReview = await collection.updateOne(
     { "reviews._id": req.body.id },
+    // $set - 'updates changes' to a review in a listing by review id
     { $set: { "reviews.$": req.body.payload } }
   );
   res.json(updateReview);
@@ -70,6 +72,7 @@ router.put("/reviews/:id", async (req, res) => {
 router.post("/reviews/:id", async (req, res) => {
   const addReview = await collection.updateOne(
     { _id: req.body.id },
+    // $push - 'adds new' payload(review) to listing by id
     { $push: { reviews: req.body.payload } }
   );
   res.json(addReview);
@@ -77,8 +80,10 @@ router.post("/reviews/:id", async (req, res) => {
 
 // Delete a review
 router.delete("/reviews/:id", async (req, res) => {
+  // Use updateOne, else entire airbnb listing gets deleted.
   const delReview = await collection.updateOne(
     { "reviews._id": req.body.id },
+    // $pull - 'removes review' from listing by review id
     { $pull: { reviews: { _id: req.body.id } } }
   );
   res.json(delReview);
