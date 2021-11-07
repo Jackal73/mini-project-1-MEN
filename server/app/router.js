@@ -57,4 +57,13 @@ router.get("/reviews/:id", async (req, res) => {
   res.json(oneListingReviews.reviews);
 });
 
+// Update listing review
+router.put("/reviews/:id", async (req, res) => {
+  const updateReview = await collection.updateOne(
+    { "reviews._id": req.body.id },
+    { $set: { "reviews.$": req.body.payload } }
+  );
+  res.json(updateReview);
+});
+
 export default router;
