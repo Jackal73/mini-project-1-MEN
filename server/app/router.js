@@ -42,4 +42,11 @@ router.post("/listings", async (req, res) => {
   );
 });
 
+// Delete a single listing
+router.delete("/listings/:id", async (req, res) => {
+  const delList = await collection.deleteOne({ _id: req.body.id });
+  // console.log(`Listing id: ${delList.deletedId} was deleted`);
+  res.json(delList);
+});
+
 export default router;
