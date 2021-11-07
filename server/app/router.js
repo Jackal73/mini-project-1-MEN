@@ -6,6 +6,8 @@ const collection = client.db(config.db.name).collection(config.db.collection);
 
 const router = new Router();
 
+// Using "Insomnia" API client for route testing.
+
 // Test - Get hello world
 router.get("/", (_, res) => {
   res.send("Hello World from API router!");
@@ -47,6 +49,12 @@ router.delete("/listings/:id", async (req, res) => {
   const delList = await collection.deleteOne({ _id: req.body.id });
   // console.log(`Listing id: ${delList.deletedId} was deleted`);
   res.json(delList);
+});
+
+// Get single listing reviews
+router.get("/reviews/:id", async (req, res) => {
+  const oneListingReviews = await collection.findOne({ _id: req.body.id });
+  res.json(oneListingReviews.reviews);
 });
 
 export default router;
