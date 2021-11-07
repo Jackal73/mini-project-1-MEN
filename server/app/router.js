@@ -24,4 +24,13 @@ router.get("/:id", async (req, res) => {
   res.json(listingById);
 });
 
+// Update a single airbnb listing
+router.put("/listings/:id", async (req, res) => {
+  const updateList = await collection.updateOne(
+    { _id: req.body.id },
+    { $set: req.body.payload }
+  );
+  res.json(updateList);
+});
+
 export default router;
