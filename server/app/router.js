@@ -75,4 +75,13 @@ router.post("/reviews/:id", async (req, res) => {
   res.json(addReview);
 });
 
+// Delete a review
+router.delete("/reviews/:id", async (req, res) => {
+  const delReview = await collection.updateOne(
+    { "reviews._id": req.body.id },
+    { $pull: { reviews: { _id: req.body.id } } }
+  );
+  res.json(delReview);
+});
+
 export default router;
