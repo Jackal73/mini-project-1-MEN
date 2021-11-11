@@ -15,9 +15,18 @@ router.get("/", (_, res) => {
 
 // Get current listings
 router.get("/current-listings", async (_, res) => {
-  // Get all of the sample_airbnb listings
+  // Get all of the sample_airbnb listings - (limited to 5 listings)
   const currentList = await collection.find({}).limit(5).toArray();
   res.json(currentList);
+});
+
+// ***--- Still working on this one ---***
+// Get current listings with params - (max-price, keywords, # of listings shown)
+router.get("/current-listings", async (req, res) => {
+  const listings = await collection
+    .find({ price: { $lte: "max-price" } })
+    .toArray();
+  res.json(listings);
 });
 
 // Get listing by id
