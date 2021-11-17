@@ -21,12 +21,17 @@ router.get("/current-listings", async (_, res) => {
 });
 
 // ***--- Still working on this one ---***
-// Get current listings with params - (max-price, keywords, # of listings shown)
+// Get current listings with params - ( keywords, max-price, # of listings shown)
 router.get("/current-listings", async (req, res) => {
-  const listings = await collection
-    .find({ price: { $lte: "max-price" } })
-    .toArray();
-  res.json(listings);
+  const filter = Object.defineProperties(req.query).reduce(
+    (filterAcc, [k, v]) => {
+      filterAcc[k] = { $regex: v, $options: "i" };
+      return filterAcc;
+    },
+    {}
+  );
+  const currentListingsParam = await collection.find(filter).toArray();
+  res.json(currentListingsParam);
 });
 
 // Get listing by id
